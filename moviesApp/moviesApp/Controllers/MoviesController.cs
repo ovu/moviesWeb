@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using moviesApp.Model;
 
@@ -15,9 +16,9 @@ namespace moviesApp.Controllers
         }
 
         [HttpGet("[action]")]
-        public IEnumerable<Movie> MoviesList()
+        public async Task<IEnumerable<Movie>> MoviesList()
         {
-            return moviesRepository.ListMovies();
+            return await moviesRepository.ListMovies();
         }
     }
 }

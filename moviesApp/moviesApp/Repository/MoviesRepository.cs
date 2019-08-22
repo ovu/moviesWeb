@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using moviesApp.Controllers;
@@ -20,9 +21,9 @@ namespace moviesApp.Repository
             collection = database.GetCollection<BsonDocument>("movie");
         }
 
-        public IEnumerable<Movie> ListMovies()
+        public async Task<IEnumerable<Movie>> ListMovies()
         {
-            var documents = collection.Find(new BsonDocument()).ToList();
+            var documents = await collection.Find(new BsonDocument()).ToListAsync();
             List<Movie> movies = new List<Movie>();
 
             foreach (BsonDocument doc in documents)
