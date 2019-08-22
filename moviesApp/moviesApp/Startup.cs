@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using moviesApp.Controllers;
+using moviesApp.Repository;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace moviesApp
 {
@@ -20,7 +24,17 @@ namespace moviesApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSingleton<IMoviesRepository, MoviesRepository>();
+
+            // Set json serialiazer
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options => {
+                options.SerializerSettings.Formatting = Formatting.Indented;
+                options.SerializerSettings.TypeNameHandling = TypeNameHandling.Objects;
+                options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.Converters.Add(new StringEnumConverter());
+            });
+
+
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
