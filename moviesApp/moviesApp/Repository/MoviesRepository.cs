@@ -46,5 +46,12 @@ namespace moviesApp.Repository
             return movies;
 
         }
+
+        public async Task<Movie> InsertMovie(Movie movie)
+        {
+            await collection.InsertOneAsync(movie);
+
+            return movie;
+        }
     }
 }

@@ -28,6 +28,7 @@
   <ItemGroup>
     <Folder Include="Model\" />
     <Folder Include="Repository\" />
+    <Folder Include="DataTransfer\" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

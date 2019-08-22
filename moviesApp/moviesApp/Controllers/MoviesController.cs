@@ -20,5 +20,11 @@ namespace moviesApp.Controllers
         {
             return await moviesRepository.ListMovies();
         }
+
+        [HttpPost("[action]")]
+        public async Task<Movie> InsertMovie([FromBody]MovieDto movie)
+        {
+            return await moviesRepository.InsertMovie(movie.toMovie());
+        }
     }
 }

@@ -7,5 +7,6 @@ namespace moviesApp.Controllers
     public interface IMoviesRepository
     {
         Task<IEnumerable<Movie>> ListMovies();
+        Task<Movie> InsertMovie(Movie movie);
     }
 }
