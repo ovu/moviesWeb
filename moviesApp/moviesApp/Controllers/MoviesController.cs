@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using moviesApp.DataTransfer;
 using moviesApp.Model;
 
 namespace moviesApp.Controllers
@@ -22,9 +23,15 @@ namespace moviesApp.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<Movie> InsertMovie([FromBody]MovieDto movie)
+        public async Task<Movie> InsertMovie([FromBody]MovieInsertDto movieInsertDto)
         {
-            return await moviesRepository.InsertMovie(movie.toMovie());
+            return await moviesRepository.InsertMovie(movieInsertDto.ToMovie());
+        }
+
+        [HttpPut("[action]")]
+        public async Task<bool> UpdateMovie([FromBody]MovieUpdateDto movieUpdateDto)
+        {
+            return await moviesRepository.UpdateMovie(movieUpdateDto.ToMovie());
         }
     }
 }

@@ -8,5 +8,6 @@ namespace moviesApp.Controllers
     {
         Task<IEnumerable<Movie>> ListMovies();
         Task<Movie> InsertMovie(Movie movie);
+        Task<bool> UpdateMovie(Movie movie);
     }
 }

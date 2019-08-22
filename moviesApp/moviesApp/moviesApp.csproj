@@ -30,6 +30,9 @@
     <Folder Include="Repository\" />
     <Folder Include="DataTransfer\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Model\IMovie.cs" />
+  </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">

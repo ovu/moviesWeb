@@ -1,6 +1,8 @@
-﻿namespace moviesApp.Model
+﻿using moviesApp.Model;
+
+namespace moviesApp.DataTransfer
 {
-    public class MovieDto
+    public abstract class MovieDto
     {
         public string Title { get; set; }
         public string Director { get; set; }
@@ -8,9 +10,6 @@
         public string Image { get; set; }
         public int Year { get; set; }
 
-        public Movie toMovie()
-        {
-            return new Movie(Title, Director, Actors, Image, Year);
-        }
+        public abstract Movie ToMovie();
     }
 }

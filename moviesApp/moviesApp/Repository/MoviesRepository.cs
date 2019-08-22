@@ -53,5 +53,17 @@ namespace moviesApp.Repository
 
             return movie;
         }
+
+        public async Task<bool> UpdateMovie(Movie movie)
+        {
+            var result = await collection.ReplaceOneAsync (x => x.Id == movie.Id, movie);
+
+            if(result.IsModifiedCountAvailable && result.ModifiedCount == 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
