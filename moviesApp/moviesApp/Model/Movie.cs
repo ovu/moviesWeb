@@ -1,19 +1,12 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using Newtonsoft.Json;
 
 namespace moviesApp.Model
 {
     public class Movie
     {
         [BsonId]
-        [JsonIgnore]
         public ObjectId Id { get; set; }
-        public string MovieId
-        {
-            get { return Id.ToString(); }
-            set { Id = ObjectId.Parse(value); }
-        }
 
         public string Title { get; set; }
         public string Director { get; set; }

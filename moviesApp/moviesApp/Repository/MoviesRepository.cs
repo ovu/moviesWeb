@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using moviesApp.Controllers;
@@ -23,6 +24,7 @@ namespace moviesApp.Repository
                 cm.MapMember(c => c.Image).SetElementName("image");
                 cm.MapMember(c => c.Actors).SetElementName("actors");
                 cm.MapMember(c => c.Year).SetElementName("year");
+                
                 
             });
 
@@ -56,9 +58,22 @@ namespace moviesApp.Repository
 
         public async Task<bool> UpdateMovie(Movie movie)
         {
+            var filter = Builders<BsonDocument>.Filter.Eq("id", movie.Id);
             var result = await collection.ReplaceOneAsync (x => x.Id == movie.Id, movie);
 
             if(result.IsModifiedCountAvailable && result.ModifiedCount == 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> DeleteMovie(string movieId)
+        {
+            var result = await collection.DeleteOneAsync( x => x.Id == new ObjectId(movieId));
+
+            if (result.DeletedCount == 1)
             {
                 return true;
             }

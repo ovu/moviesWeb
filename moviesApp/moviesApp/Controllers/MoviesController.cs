@@ -17,21 +17,29 @@ namespace moviesApp.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IEnumerable<Movie>> MoviesList()
+        public async Task<IEnumerable<MovieResponseDto>> MoviesList()
         {
-            return await moviesRepository.ListMovies();
+            var movies = await moviesRepository.ListMovies();
+            return movies.ToListResponseMovie();
         }
 
-        [HttpPost("[action]")]
-        public async Task<Movie> InsertMovie([FromBody]MovieInsertDto movieInsertDto)
+        [HttpPost]
+        public async Task<MovieResponseDto> InsertMovie([FromBody]MovieRequestDto movieRequestDto)
         {
-            return await moviesRepository.InsertMovie(movieInsertDto.ToMovie());
+            Movie savedMovie = await moviesRepository.InsertMovie(movieRequestDto.ToMovie());
+            return savedMovie.ToResponseMovie();
         }
 
-        [HttpPut("[action]")]
-        public async Task<bool> UpdateMovie([FromBody]MovieUpdateDto movieUpdateDto)
+        [HttpPut("{movieId}")]
+        public async Task<bool> UpdateMovie([FromRoute]string movieId,[FromBody]MovieRequestDto movieRequestDto)
         {
-            return await moviesRepository.UpdateMovie(movieUpdateDto.ToMovie());
+            return await moviesRepository.UpdateMovie(movieRequestDto.ToMovie(movieId));
+        }
+
+        [HttpDelete("{movieId}")]
+        public async Task<bool> DeleteMovie([FromRoute]string movieId)
+        {
+            return await moviesRepository.DeleteMovie(movieId);
         }
     }
 }
