@@ -4,12 +4,15 @@ namespace moviesApp.DataTransfer
 {
     public class MovieUpdateDto: MovieDto
     {
-        string Id { get; set; }
+        public string Id { get; set; }
 
         public override Movie ToMovie()
         {
-            var movie = new Movie(Title, Director, Actors, Image, Year);
-            movie.MovieId = Id;
+            var movie = new Movie(Title, Director, Actors, Image, Year)
+            {
+                MovieId = Id
+            };
+
             return movie;
         }
     }
