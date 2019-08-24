@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -18,14 +19,14 @@ namespace moviesApp.Repository
             BsonClassMap.RegisterClassMap<Movie>(cm =>
             {
                 cm.AutoMap();
-                
+
                 cm.MapMember(c => c.Title).SetElementName("title");
                 cm.MapMember(c => c.Director).SetElementName("director");
                 cm.MapMember(c => c.Image).SetElementName("image");
                 cm.MapMember(c => c.Actors).SetElementName("actors");
                 cm.MapMember(c => c.Year).SetElementName("year");
-                
-                
+
+
             });
 
             // Use the connection string
@@ -37,16 +38,9 @@ namespace moviesApp.Repository
 
         public async Task<IEnumerable<Movie>> ListMovies()
         {
-            var documents = await collection.AsQueryable().ToListAsync();
-            var movies = new List<Movie>();
-
-            foreach (Movie movie in documents)
-            {
-                movies.Add(movie);
-            }
+            var movies = await collection.AsQueryable().ToListAsync();
 
             return movies;
-
         }
 
         public async Task<Movie> InsertMovie(Movie movie)
@@ -58,9 +52,9 @@ namespace moviesApp.Repository
 
         public async Task<bool> UpdateMovie(Movie movie)
         {
-            var result = await collection.ReplaceOneAsync (x => x.Id == movie.Id, movie);
+            var result = await collection.ReplaceOneAsync(x => x.Id == movie.Id, movie);
 
-            if(result.IsModifiedCountAvailable && result.ModifiedCount == 1)
+            if (result.IsModifiedCountAvailable && result.ModifiedCount == 1)
             {
                 return true;
             }
@@ -70,7 +64,7 @@ namespace moviesApp.Repository
 
         public async Task<bool> DeleteMovie(string movieId)
         {
-            var result = await collection.DeleteOneAsync( x => x.Id == new ObjectId(movieId));
+            var result = await collection.DeleteOneAsync(x => x.Id == new ObjectId(movieId));
 
             if (result.DeletedCount == 1)
             {
@@ -78,6 +72,18 @@ namespace moviesApp.Repository
             }
 
             return false;
+        }
+
+        public async Task<IEnumerable<Movie>> FindMovies(string textToSearch)
+        {
+            var textToSearchLower = textToSearch.ToLower();
+            var movies = await collection.FindAsync(x =>
+                x.Title.ToLower().Contains(textToSearchLower) ||
+                x.Director.ToLower().Contains(textToSearchLower) ||
+                x.Actors.ToLower().Contains(textToSearchLower)
+            );
+
+            return movies.ToEnumerable();
         }
     }
 }

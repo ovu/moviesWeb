@@ -23,6 +23,13 @@ namespace moviesApp.Controllers
             return movies.ToListResponseMovie();
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<MovieResponseDto>> SearchMovies([FromQuery]string textToSearch)
+        {
+            var movies = await moviesRepository.FindMovies(textToSearch);
+            return movies.ToListResponseMovie();
+        }
+
         [HttpPost]
         public async Task<MovieResponseDto> InsertMovie([FromBody]MovieRequestDto movieRequestDto)
         {
@@ -41,5 +48,6 @@ namespace moviesApp.Controllers
         {
             return await moviesRepository.DeleteMovie(movieId);
         }
+
     }
 }
