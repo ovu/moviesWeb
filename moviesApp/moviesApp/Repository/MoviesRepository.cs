@@ -58,7 +58,6 @@ namespace moviesApp.Repository
 
         public async Task<bool> UpdateMovie(Movie movie)
         {
-            var filter = Builders<BsonDocument>.Filter.Eq("id", movie.Id);
             var result = await collection.ReplaceOneAsync (x => x.Id == movie.Id, movie);
 
             if(result.IsModifiedCountAvailable && result.ModifiedCount == 1)
