@@ -25,8 +25,6 @@ namespace moviesApp.Repository
                 cm.MapMember(c => c.Image).SetElementName("image");
                 cm.MapMember(c => c.Actors).SetElementName("actors");
                 cm.MapMember(c => c.Year).SetElementName("year");
-
-
             });
 
             // Use the connection string
