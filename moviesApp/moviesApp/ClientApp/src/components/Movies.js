@@ -32,13 +32,13 @@ class Movies extends Component {
 
 function renderMovies(props) {
   return (
-    <div className="">
+    <div className="w-75">
         {props.movies.map(movie =>
 
-          <div class="container bg-light border-top border-bottom border-info ml-5 mr-5 mb-4 ">
+          <div class="container bg-light border-top border-bottom border-info ml-5 mr-5 mb-4 pl-4 ">
             <div class="row">
               <div class="col">
-                <img src={movie.image} className=" w-100" alt="..."/>
+                <img src={movie.image} className="w-100" alt="..."/>
               </div>
               <div class="col-9">
                 <div className="card" style={{width: '35rem'}}>
