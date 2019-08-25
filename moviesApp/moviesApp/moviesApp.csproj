@@ -29,6 +29,7 @@
     <Folder Include="Model\" />
     <Folder Include="Repository\" />
     <Folder Include="DataTransfer\" />
+    <Folder Include="Config\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Model\IMovie.cs" />

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using moviesApp.Config;
 using moviesApp.Controllers;
 using moviesApp.Model;
 
@@ -14,7 +16,7 @@ namespace moviesApp.Repository
         MongoClient client;
         IMongoDatabase database;
         IMongoCollection<Movie> collection;
-        public MoviesRepository()
+        public MoviesRepository(IOptions<AppSettings> settings)
         {
             BsonClassMap.RegisterClassMap<Movie>(cm =>
             {
@@ -28,7 +30,7 @@ namespace moviesApp.Repository
             });
 
             // Use the connection string
-            client = new MongoClient("mongodb+srv://service:rSSCDZTIZzwPRsnEHGvY@cluster0-iv5oy.mongodb.net");
+            client = new MongoClient(settings.Value.MongoDbConnectionString);
             database = client.GetDatabase("movie");
 
             collection = database.GetCollection<Movie>("movie");

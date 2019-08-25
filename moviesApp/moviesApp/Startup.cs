@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using moviesApp.Config;
 using moviesApp.Controllers;
 using moviesApp.Repository;
 using Newtonsoft.Json;
@@ -24,6 +25,10 @@ namespace moviesApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configure services for reading the config file
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            // Configure movies repository
             services.AddSingleton<IMoviesRepository, MoviesRepository>();
 
             // Set json serialiazer
@@ -41,6 +46,7 @@ namespace moviesApp
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
