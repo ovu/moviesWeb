@@ -16,7 +16,7 @@ namespace moviesApp.Controllers
             this.moviesRepository = moviesRepository;
         }
 
-        [HttpGet]
+        [HttpGet("list")]
         public async Task<IEnumerable<MovieResponseDto>> MoviesList()
         {
             var movies = await moviesRepository.ListMovies();
