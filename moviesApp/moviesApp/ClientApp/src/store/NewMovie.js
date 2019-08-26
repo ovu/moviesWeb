@@ -1,3 +1,5 @@
+import validationService from "./../services/ValidationService.js";
+
 const changeTitleType = 'CHANGE_TITLE';
 const changeDirectorType = 'CHANGE_DIRECTOR';
 const changeActorsType = 'CHANGE_ACTORS';
@@ -5,6 +7,7 @@ const changeImageType = 'CHANGE_IMAGE';
 const changeYearType = 'CHANGE_YEAR';
 const savedSuccessfullyType = 'SAVED_SUCCESSFULLY';
 const updateJustSavedType = 'UPDATE_JUST_SAVED';
+
 const initialState = {
   title: "", isValidTitle: true,
   director: "", isValidDirector: true,
@@ -30,57 +33,32 @@ export const actionCreators = {
 
     const savedMovie = await response.json();
     const savedMovieAnswer = savedMovie && savedMovie.id && savedMovie.id !== "";
-    debugger;
 
     dispatch({type: savedSuccessfullyType, savedMovieAnswer});
   },
 
   changeTitle: (newTitle) => async (dispatch, getState) => {
-    let isValidTitle = false;
-    if (newTitle && newTitle.trim() !== "") {
-      isValidTitle = true;
-    }
+    let isValidTitle = validationService.isValidString(newTitle);
     dispatch({ type: changeTitleType, title: newTitle, isValidTitle });
   },
 
   changeDirector: (newDirector) => async (dispatch, getState) => {
-    let isValidDirector = false;
-    if (newDirector && newDirector.trim() !== "") {
-      isValidDirector = true;
-    }
+    let isValidDirector = validationService.isValidString(newDirector);
     dispatch({ type: changeDirectorType, director: newDirector, isValidDirector });
   },
 
   changeActors: (newActors) => async (dispatch, getState) => {
-    let isValidActors = false;
-    if (newActors && newActors.trim() !== "") {
-      isValidActors = true;
-    }
+    let isValidActors = validationService.isValidString(newActors);
     dispatch({ type: changeActorsType, actors: newActors, isValidActors });
   },
 
   changeYear: (newYear) => async (dispatch, getState) => {
-    let isValidYear = false;
-    const newYearWithoutSpaces = newYear.trim();
-    if (newYear && newYearWithoutSpaces !== "") {
-      const yearAsNumber = Number(newYearWithoutSpaces);
-      if (isNaN(yearAsNumber)) {
-        isValidYear = false;
-      } else {
-        const currentYear = new Date().getFullYear();
-        if (yearAsNumber >= 1900 && yearAsNumber <= currentYear ) {
-          isValidYear = true;
-        }
-      }
-    }
-    dispatch({ type: changeYearType, year: newYearWithoutSpaces, isValidYear });
+    let isValidYear = validationService.isValidYear(newYear);
+    dispatch({ type: changeYearType, year: newYear.trim(), isValidYear });
   },
 
   changeImage: (newImage) => async (dispatch, getState) => {
-    let isValidImage = false;
-    if (newImage && newImage.trim() !== "") {
-      isValidImage = true;
-    }
+    let isValidImage = validationService.isValidString(newImage);
     dispatch({ type: changeImageType, image: newImage.trim(), isValidImage });
   },
 

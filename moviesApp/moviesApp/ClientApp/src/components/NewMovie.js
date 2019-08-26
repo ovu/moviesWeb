@@ -7,7 +7,6 @@ import Octicon, {Check, CircleSlash} from '@primer/octicons-react'
 class AddNewMovie extends Component {
   componentDidUpdate() {
     if (this.props.justSaved === true) {
-      console.log('setting timeout');
       setTimeout(() => this.props.updateJustSaved(false), 3000);
     }
   }
