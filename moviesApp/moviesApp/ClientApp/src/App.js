@@ -9,7 +9,7 @@ import Movies from './components/Movies';
 export default () => (
   <Layout>
     <Route exact path='/' component={Home} />
-    <Route exact path='/movies' component={Movies} />
+    <Route path='/movies' component={Movies} />
     <Route path='/counter' component={Counter} />
     <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
   </Layout>
