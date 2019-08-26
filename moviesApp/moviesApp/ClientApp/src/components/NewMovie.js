@@ -1,14 +1,26 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { actionCreators } from '../store/NewMovie';
+import Octicon, {Check, CircleSlash} from '@primer/octicons-react'
 
 class AddNewMovie extends Component {
+  componentDidUpdate() {
+    if (this.props.justSaved === true) {
+      console.log('setting timeout');
+      setTimeout(() => this.props.updateJustSaved(false), 3000);
+    }
+  }
+
   render() {
     return (
       <div>
         <h1>Add new movie</h1>
+        {this.props.justSaved && this.props.savedMovieAnswer ? <div><h3 className="text-success">
+          <Octicon icon={Check} size='medium'/>Saved successfully</h3></div>: null}
+        {this.props.justSaved && !this.props.savedMovieAnswer ? <div><h3 className="text-danger">
+           <Octicon icon={CircleSlash} size='medium'/> Error while saving </h3></div>: null}
+
         {renderAddNewMovie(this.props, this.handleTitleChanged, this.handleDirectorChanged, this.handleActorsChanged, 
           this.handleYearChanged, this.handleImageChanged, this.handleSaveMovie)}
       </div>
@@ -54,7 +66,6 @@ function renderAddNewMovie(props, handleTitleChanged, handleDirectorChanged,
     <div className="container w-75 mb-2 clearfix">
       <div className="row">
         <div className="col">
-          <form>
             <div className="form-group">
               <label htmlFor="title">Title</label>
               <input type="text" className="form-control"
@@ -109,7 +120,6 @@ function renderAddNewMovie(props, handleTitleChanged, handleDirectorChanged,
                     : <button type="submit" className="btn btn-info float-right" disabled title="All fields are required.">Save</button>
 
                   }
-          </form>
         </div>
       </div>
     </div>

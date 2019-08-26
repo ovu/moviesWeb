@@ -1,15 +1,19 @@
-const saveMovieType = 'SAVE_MOVIE';
 const changeTitleType = 'CHANGE_TITLE';
 const changeDirectorType = 'CHANGE_DIRECTOR';
 const changeActorsType = 'CHANGE_ACTORS';
 const changeImageType = 'CHANGE_IMAGE';
 const changeYearType = 'CHANGE_YEAR';
+const savedSuccessfullyType = 'SAVED_SUCCESSFULLY';
+const updateJustSavedType = 'UPDATE_JUST_SAVED';
 const initialState = {
   title: "", isValidTitle: true,
   director: "", isValidDirector: true,
   actors: "", isValidActors: true,
   year: "", isValidYear: true,
-  image: "", isValidImage: true};
+  image: "", isValidImage: true,
+  justSaved: false,
+  savedMovieAnswer: true
+};
 
 export const actionCreators = {
   saveMovie: (newMovie) => async (dispatch, getState) => {
@@ -24,9 +28,11 @@ export const actionCreators = {
         body: JSON.stringify(newMovie)
     });
 
-    const movies = await response.json();
+    const savedMovie = await response.json();
+    const savedMovieAnswer = savedMovie && savedMovie.id && savedMovie.id !== "";
+    debugger;
 
-    dispatch({ type: savedSuccessfullyType});
+    dispatch({type: savedSuccessfullyType, savedMovieAnswer});
   },
 
   changeTitle: (newTitle) => async (dispatch, getState) => {
@@ -58,7 +64,7 @@ export const actionCreators = {
     const newYearWithoutSpaces = newYear.trim();
     if (newYear && newYearWithoutSpaces !== "") {
       const yearAsNumber = Number(newYearWithoutSpaces);
-      if (yearAsNumber === NaN) {
+      if (isNaN(yearAsNumber)) {
         isValidYear = false;
       } else {
         const currentYear = new Date().getFullYear();
@@ -76,6 +82,10 @@ export const actionCreators = {
       isValidImage = true;
     }
     dispatch({ type: changeImageType, image: newImage.trim(), isValidImage });
+  },
+
+  updateJustSaved: (newValue) => async (dispatch, getState) => {
+    dispatch({ type: updateJustSavedType, justSaved: newValue });
   }
 };
 
@@ -122,5 +132,20 @@ export const reducer = (state, action) => {
     };
   }
 
+  if (action.type === savedSuccessfullyType) {
+    return {
+      ...state,
+      ...initialState,
+      justSaved: true,
+      savedMovieAnswer: action.savedMovieAnswer
+    };
+  }
+
+  if (action.type === updateJustSavedType) {
+    return {
+      ...state,
+      justSaved: action.justSaved
+    };
+  }
   return state;
 };
