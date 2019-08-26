@@ -85,5 +85,12 @@ namespace moviesApp.Repository
 
             return movies.ToEnumerable();
         }
+
+        public async Task<Movie> FindMovie(string movieId)
+        {
+            var result = await collection.FindAsync(x => x.Id == new ObjectId(movieId));
+
+            return result.First();
+        }
     }
 }

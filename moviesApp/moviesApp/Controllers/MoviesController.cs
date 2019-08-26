@@ -43,6 +43,13 @@ namespace moviesApp.Controllers
             return await moviesRepository.UpdateMovie(movieRequestDto.ToMovie(movieId));
         }
 
+        [HttpGet("{movieId}")]
+        public async Task<MovieResponseDto> GetMovie([FromRoute]string movieId)
+        {
+            Movie movie = await moviesRepository.FindMovie(movieId);
+            return movie.ToResponseMovie();
+        }
+
         [HttpDelete("{movieId}")]
         public async Task<bool> DeleteMovie([FromRoute]string movieId)
         {
