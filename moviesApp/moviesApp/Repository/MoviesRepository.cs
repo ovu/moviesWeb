@@ -54,7 +54,7 @@ namespace moviesApp.Repository
         {
             var result = await collection.ReplaceOneAsync(x => x.Id == movie.Id, movie);
 
-            if (result.IsModifiedCountAvailable && result.ModifiedCount == 1)
+            if (result.MatchedCount == 1)
             {
                 return true;
             }

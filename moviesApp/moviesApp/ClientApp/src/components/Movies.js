@@ -86,8 +86,8 @@ function renderMovies(props) {
                   <p className="card-text">Actors: {movie.actors}</p>
                   <p className="card-text">Year: {movie.year}</p>
                   <div className="float-right">
-                    <Link className='btn btn-default pull-left' to={`/edit`}><Octicon icon={Pencil}/></Link>
-                    <Link className='btn btn-default pull-left' to={`/delete`}><Octicon icon={Trashcan}/></Link>
+                    <Link className='btn btn-default pull-left' to={`/edit/${movie.id}`}><Octicon icon={Pencil} size='small'/></Link>
+                    <Link className='btn btn-default pull-left' to={`/delete`}><Octicon icon={Trashcan} size='small'/></Link>
                   </div>
                   </div>
                 </div>
