@@ -33,7 +33,6 @@ class Movies extends Component {
 
   handleKeyDown= (event) => {
     if (event.key === 'Enter') {
-      console.log('Searching');
       this.props.searchMovies(event.target.value);
       this.props.history.push(`/movies?textToSearch=${event.target.value}`)
       event.preventDefault();
@@ -48,7 +47,6 @@ class Movies extends Component {
       const textToSearch = this.props.textToSearch;
       this.props.searchMovies(textToSearch);
       this.props.history.push(`/movies?textToSearch=${textToSearch}`)
-      console.log('handleSearch');
   }
 }
 
