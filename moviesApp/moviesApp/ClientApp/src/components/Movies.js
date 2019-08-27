@@ -25,7 +25,7 @@ class Movies extends Component {
         <p>Shows all the movies and search using a filter.</p>
 
         {renderSearch(this.props, this.handleKeyDown, this.handleTextChanged, this.handleSearchMovies)}
-        {renderMovies(this.props)}
+        {renderMovies(this.props, this.handleDeleteMovie, this.handleCancelDeleteMovie, this.handleConfirmDeleteMovie)}
         {renderFooter(this.props)}
       </div>
     );
@@ -48,6 +48,21 @@ class Movies extends Component {
       this.props.searchMovies(textToSearch);
       this.props.history.push(`/movies?textToSearch=${textToSearch}`)
   }
+
+  handleDeleteMovie = (movieId) => {
+    this.props.markForDeletion(movieId);
+    this.forceUpdate();
+  }
+
+  handleCancelDeleteMovie = (movieId) => {
+    this.props.cancelDeletion(movieId);
+    this.forceUpdate();
+  }
+
+  handleConfirmDeleteMovie = (movieId) => {
+    this.props.deleteMovie(movieId);
+    this.forceUpdate();
+  }
 }
 
 function renderSearch(props, handleKeyDown, handleTextChanged, handleSearchMovies) {
@@ -68,7 +83,7 @@ function renderSearch(props, handleKeyDown, handleTextChanged, handleSearchMovie
   );
 }
 
-function renderMovies(props) {
+function renderMovies(props, handleDeleteMovie, handleCancelDeleteMovie, handleConfirmDeleteMovie) {
   return (
     <div className="w-75">
         {props.movies.map(movie =>
@@ -85,10 +100,22 @@ function renderMovies(props) {
                     <h6 className="card-subtitle mb-2 text-muted">Director: {movie.director}</h6>
                   <p className="card-text">Actors: {movie.actors}</p>
                   <p className="card-text">Year: {movie.year}</p>
+                {movie.isMarkedForDeletion}
+                  {!movie.isMarkedForDeletion &&
                   <div className="float-right">
-                    <Link className='btn btn-default pull-left' to={`/edit/${movie.id}`}><Octicon icon={Pencil} size='small'/></Link>
-                    <Link className='btn btn-default pull-left' to={`/delete`}><Octicon icon={Trashcan} size='small'/></Link>
+                    <Link className='btn btn-default pull-left text-info' to={`/edit/${movie.id}`}><Octicon icon={Pencil} size='small'/></Link>
+                    <a className='btn btn-default pull-left text-info' onClick={() => handleDeleteMovie(movie.id)}><Octicon icon={Trashcan} size='small'/></a>
                   </div>
+                  }
+                  {movie.isMarkedForDeletion === true &&
+                  <div className="float-right">
+                      <span className="text-info clearfix">Do you want to delete the movie?</span>
+                      <div className="float-right clearfix">
+                        <button type="button" className="btn btn-info mr-2" onClick={() => handleCancelDeleteMovie(movie.id)}>Cancel</button>
+                        <button type="button" className="btn btn-info" onClick={() => handleConfirmDeleteMovie (movie.id)}>Delete</button>
+                      </div>
+                  </div>
+                  }
                   </div>
                 </div>
               </div>
