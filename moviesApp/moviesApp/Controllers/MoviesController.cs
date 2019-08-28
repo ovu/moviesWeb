@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using moviesApp.Controllers.Validation;
 using moviesApp.DataTransfer;
 using moviesApp.Model;
 
@@ -44,9 +46,17 @@ namespace moviesApp.Controllers
         }
 
         [HttpPut("{movieId}")]
-        public async Task<bool> UpdateMovie([FromRoute]string movieId,[FromBody]MovieRequestDto movieRequestDto)
+        public async Task<IActionResult> UpdateMovie([FromRoute]string movieId,[FromBody]MovieRequestDto movieRequestDto)
         {
-            return await moviesRepository.UpdateMovie(movieRequestDto.ToMovie(movieId));
+            var objectId = new ObjectId();
+            bool updateResult = false;
+            if (movieId.isValidObjectId(out objectId))
+            {
+                updateResult = await moviesRepository.UpdateMovie(movieRequestDto.ToMovie(objectId.ToString()));
+                return Ok(updateResult);
+            }
+
+            return BadRequest(updateResult);
         }
 
         [HttpGet("{movieId}")]
