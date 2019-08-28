@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using moviesApp.Config;
 using moviesApp.Controllers;
 using moviesApp.Repository;
+using moviesApp.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -31,6 +31,8 @@ namespace moviesApp
             // Configure movies repository
             services.AddSingleton<IMoviesRepository, MoviesRepository>();
 
+            services.AddTransient<IProxyService, ProxyService>();
+
             // Set json serialiazer
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options => {
                 options.SerializerSettings.Formatting = Formatting.Indented;
@@ -38,8 +40,6 @@ namespace moviesApp
                 options.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
-
-
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
