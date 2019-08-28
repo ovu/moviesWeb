@@ -39,10 +39,15 @@ namespace moviesApp.Controllers
         }
 
         [HttpPost]
-        public async Task<MovieResponseDto> InsertMovie([FromBody]MovieRequestDto movieRequestDto)
+        public async Task<IActionResult> InsertMovie([FromBody]MovieRequestDto movieRequestDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             Movie savedMovie = await moviesRepository.InsertMovie(movieRequestDto.ToMovie());
-            return savedMovie.ToResponseMovie();
+            return Ok(savedMovie.ToResponseMovie());
         }
 
         [HttpPut("{movieId}")]

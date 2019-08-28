@@ -57,7 +57,6 @@ namespace moviesApp.Controllers
             controller.ModelState.AddModelError("Error", "Error");
 
             // Act
-            // Title longer than 100
 
             var movieRequest = new MovieRequestBuilder().WithValidMovie().Build();
             var result = await controller.UpdateMovie("5d5fbc449fdf6d3f23ce4510", movieRequest);
