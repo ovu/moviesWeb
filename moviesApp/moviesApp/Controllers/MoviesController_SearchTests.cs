@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using moviesApp.DataTransfer;
 using moviesApp.Model;
+using moviesApp.TestHelpers;
 using Xunit;
 
 namespace moviesApp.Controllers
@@ -58,11 +59,11 @@ namespace moviesApp.Controllers
             var controller = new MoviesController(mockRepo.Object);
 
             // Act
-            var movieRequest = new MovieRequestDto { Title = "TestTitle" };
+            var movieRequest = new MovieRequestBuilder().WithValidMovie().Build();
             var result = await controller.UpdateMovie("invalid", movieRequest);
 
             // Assert
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<BadRequestResult>(result);
         }
 
         [Fact]
@@ -76,11 +77,32 @@ namespace moviesApp.Controllers
             var controller = new MoviesController(mockRepo.Object);
 
             // Act
-            var movieRequest = new MovieRequestDto { Title = "TestTitle" };
+            var movieRequest = new MovieRequestBuilder().WithValidMovie().Build();
             var result = await controller.UpdateMovie("5d5fbc449fdf6d3f23ce4510", movieRequest);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task UpdatingAMovieWithALongTitleShouldReturnBadRequest()
+        {
+            // Arrange
+            var mockRepo = new Mock<IMoviesRepository>(MockBehavior.Strict);
+            mockRepo.Setup(repo => repo.UpdateMovie(It.IsAny<Movie>()))
+                .ReturnsAsync(true);
+
+            var controller = new MoviesController(mockRepo.Object);
+            controller.ModelState.AddModelError("Error", "Error");
+
+            // Act
+            // Title longer than 100
+
+            var movieRequest = new MovieRequestBuilder().WithValidMovie().WithTitle(new string('a', 1001)).Build();
+            var result = await controller.UpdateMovie("5d5fbc449fdf6d3f23ce4510", movieRequest);
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
         }
     }
 }

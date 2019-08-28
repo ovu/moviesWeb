@@ -48,6 +48,11 @@ namespace moviesApp.Controllers
         [HttpPut("{movieId}")]
         public async Task<IActionResult> UpdateMovie([FromRoute]string movieId,[FromBody]MovieRequestDto movieRequestDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var objectId = new ObjectId();
             bool updateResult = false;
             if (movieId.isValidObjectId(out objectId))
@@ -56,7 +61,7 @@ namespace moviesApp.Controllers
                 return Ok(updateResult);
             }
 
-            return BadRequest(updateResult);
+            return BadRequest();
         }
 
         [HttpGet("{movieId}")]

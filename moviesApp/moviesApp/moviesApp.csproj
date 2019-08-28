@@ -42,6 +42,7 @@
     <Folder Include="Services\" />
     <Folder Include="Controllers\ActionResult\" />
     <Folder Include="Controllers\Validation\" />
+    <Folder Include="TestHelpers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Model\IMovie.cs" />
