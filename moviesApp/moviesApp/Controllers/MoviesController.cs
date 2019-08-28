@@ -26,8 +26,14 @@ namespace moviesApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<MovieResponseDto>> SearchMovies([FromQuery]string textToSearch)
         {
-            var movies = await moviesRepository.FindMovies(textToSearch);
-            return movies.ToListResponseMovie();
+            IEnumerable<MovieResponseDto> result = new List<MovieResponseDto>();
+            if (textToSearch != string.Empty)
+            {
+                var movies = await moviesRepository.FindMovies(textToSearch);
+                result = movies.ToListResponseMovie();
+            }
+
+            return result;
         }
 
         [HttpPost]
