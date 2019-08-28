@@ -25,7 +25,7 @@ namespace moviesApp.Controllers
 
             // Assert
             var model = Assert.IsAssignableFrom<IEnumerable<MovieResponseDto>>(result);
-            Assert.Equal(0, model.Count());
+            Assert.Empty(model);
             
         }
 
@@ -46,7 +46,7 @@ namespace moviesApp.Controllers
 
             // Assert
             var model = Assert.IsAssignableFrom<IEnumerable<MovieResponseDto>>(result);
-            Assert.Equal(1, model.Count());
+            Assert.Single(model);
 
         }
 
