@@ -12,6 +12,6 @@ namespace moviesApp.Controllers
         Task<Movie> InsertMovie(Movie movie);
         Task<bool> UpdateMovie(Movie movie);
         Task<bool> DeleteMovie(ObjectId movieId);
-        Task<Movie> FindMovie(string movieId);
+        Task<Movie> FindMovie(ObjectId movieId);
     }
 }

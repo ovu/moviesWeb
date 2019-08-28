@@ -69,10 +69,15 @@ namespace moviesApp.Controllers
         }
 
         [HttpGet("{movieId}")]
-        public async Task<MovieResponseDto> GetMovie([FromRoute]string movieId)
+        public async Task<IActionResult> GetMovie([FromRoute]string movieId)
         {
-            Movie movie = await moviesRepository.FindMovie(movieId);
-            return movie.ToResponseMovie();
+            var objectId = new ObjectId();
+            if (movieId.isValidObjectId(out objectId))
+            {
+                var result = await moviesRepository.FindMovie(objectId);
+                return Ok(result);
+            }
+            return BadRequest();
         }
 
         [HttpDelete("{movieId}")]
@@ -82,7 +87,7 @@ namespace moviesApp.Controllers
             if (movieId.isValidObjectId(out objectId))
             {
                 var result = await moviesRepository.DeleteMovie(objectId);
-                Ok(result);
+                return Ok(result);
             }
 
             return BadRequest();
