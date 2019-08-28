@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using moviesApp.Model;
 
 namespace moviesApp.Controllers
@@ -10,7 +11,7 @@ namespace moviesApp.Controllers
         Task<IEnumerable<Movie>> FindMovies(string textToSearch);
         Task<Movie> InsertMovie(Movie movie);
         Task<bool> UpdateMovie(Movie movie);
-        Task<bool> DeleteMovie(string movieId);
+        Task<bool> DeleteMovie(ObjectId movieId);
         Task<Movie> FindMovie(string movieId);
     }
 }

@@ -59,10 +59,9 @@ namespace moviesApp.Controllers
             }
 
             var objectId = new ObjectId();
-            bool updateResult = false;
             if (movieId.isValidObjectId(out objectId))
             {
-                updateResult = await moviesRepository.UpdateMovie(movieRequestDto.ToMovie(objectId.ToString()));
+                var updateResult = await moviesRepository.UpdateMovie(movieRequestDto.ToMovie(objectId.ToString()));
                 return Ok(updateResult);
             }
 
@@ -77,9 +76,16 @@ namespace moviesApp.Controllers
         }
 
         [HttpDelete("{movieId}")]
-        public async Task<bool> DeleteMovie([FromRoute]string movieId)
+        public async Task<IActionResult> DeleteMovie([FromRoute]string movieId)
         {
-            return await moviesRepository.DeleteMovie(movieId);
+            var objectId = new ObjectId();
+            if (movieId.isValidObjectId(out objectId))
+            {
+                var result = await moviesRepository.DeleteMovie(objectId);
+                Ok(result);
+            }
+
+            return BadRequest();
         }
 
     }

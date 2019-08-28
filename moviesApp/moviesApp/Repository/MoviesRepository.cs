@@ -62,9 +62,9 @@ namespace moviesApp.Repository
             return false;
         }
 
-        public async Task<bool> DeleteMovie(string movieId)
+        public async Task<bool> DeleteMovie(ObjectId movieId)
         {
-            var result = await collection.DeleteOneAsync(x => x.Id == new ObjectId(movieId));
+            var result = await collection.DeleteOneAsync(x => x.Id == movieId);
 
             if (result.DeletedCount == 1)
             {
