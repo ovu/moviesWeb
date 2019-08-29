@@ -14,6 +14,6 @@ https://localhost:5001/api/Pictures/
 Preview picture
 ===============
 
-![alt text](https://github.com/ovu/moviesWeb/preview.png "Movies App")
+![alt text](https://github.com/ovu/moviesWeb/blob/master/preview.png "Movies App")
 
 
