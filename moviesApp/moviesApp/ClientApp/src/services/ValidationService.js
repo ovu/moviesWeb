@@ -23,6 +23,25 @@ const ValidationService = {
       isValid = true;
     }
     return isValid;
+  },
+
+  isValidStringWithLength: function(value, maxLenght ) {
+    let isValid = false;
+    if (value && value.trim() !== "") {
+      if (value.length <= maxLenght) {
+        isValid = true;
+      }
+    }
+    return isValid;
+  },
+
+  isValidUrl: function(value) {
+    try {
+      new URL(value);
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 };
 

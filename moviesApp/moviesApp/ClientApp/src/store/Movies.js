@@ -71,8 +71,6 @@ export const actionCreators = {
       method: 'DELETE'
     });
 
-    const deleteAnswer = await response.text();
-
     dispatch({ type: updateMoviesType, movies: moviesWithoutDeleted });
   }
 };
@@ -115,7 +113,6 @@ export const reducer = (state, action) => {
     return {
       ...state,
       textToSearch: action.textToSearch
-      // isLoading: false
     };
   }
 

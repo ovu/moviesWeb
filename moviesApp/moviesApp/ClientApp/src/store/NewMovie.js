@@ -7,6 +7,7 @@ const changeImageType = 'CHANGE_IMAGE';
 const changeYearType = 'CHANGE_YEAR';
 const savedSuccessfullyType = 'SAVED_SUCCESSFULLY';
 const updateJustSavedType = 'UPDATE_JUST_SAVED';
+const errorSavingType = 'ERROR_SAVING';
 
 const initialState = {
   title: "", isValidTitle: true,
@@ -31,24 +32,28 @@ export const actionCreators = {
         body: JSON.stringify(newMovie)
     });
 
-    const savedMovie = await response.json();
-    const savedMovieAnswer = savedMovie && savedMovie.id && savedMovie.id !== "";
+    if (response.status === 200) {
+      const savedMovie = await response.json();
+      const savedMovieAnswer = savedMovie && savedMovie.id && savedMovie.id !== "";
+      dispatch({type: savedSuccessfullyType, savedMovieAnswer});
+    } else {
+      dispatch({type: errorSavingType});
+    }
 
-    dispatch({type: savedSuccessfullyType, savedMovieAnswer});
   },
 
   changeTitle: (newTitle) => async (dispatch, getState) => {
-    let isValidTitle = validationService.isValidString(newTitle);
+    let isValidTitle = validationService.isValidStringWithLength(newTitle, 100);
     dispatch({ type: changeTitleType, title: newTitle, isValidTitle });
   },
 
   changeDirector: (newDirector) => async (dispatch, getState) => {
-    let isValidDirector = validationService.isValidString(newDirector);
+    let isValidDirector = validationService.isValidStringWithLength(newDirector, 100);
     dispatch({ type: changeDirectorType, director: newDirector, isValidDirector });
   },
 
   changeActors: (newActors) => async (dispatch, getState) => {
-    let isValidActors = validationService.isValidString(newActors);
+    let isValidActors = validationService.isValidStringWithLength(newActors, 300);
     dispatch({ type: changeActorsType, actors: newActors, isValidActors });
   },
 
@@ -58,7 +63,8 @@ export const actionCreators = {
   },
 
   changeImage: (newImage) => async (dispatch, getState) => {
-    let isValidImage = validationService.isValidString(newImage);
+    let isValidImage = validationService.isValidString(newImage) && validationService.isValidUrl(newImage);
+    
     dispatch({ type: changeImageType, image: newImage.trim(), isValidImage });
   },
 
@@ -123,6 +129,14 @@ export const reducer = (state, action) => {
     return {
       ...state,
       justSaved: action.justSaved
+    };
+  }
+
+  if (action.type === errorSavingType) {
+    return {
+      ...state,
+      justSaved: true,
+      savedMovieAnswer: false
     };
   }
   return state;
