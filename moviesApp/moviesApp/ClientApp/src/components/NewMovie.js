@@ -13,15 +13,27 @@ class AddNewMovie extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Add new movie</h1>
-        {this.props.justSaved && this.props.savedMovieAnswer ? <div><h3 className="text-success">
-          <Octicon icon={Check} size='medium'/>Saved successfully</h3></div>: null}
-        {this.props.justSaved && !this.props.savedMovieAnswer ? <div><h3 className="text-danger">
-           <Octicon icon={CircleSlash} size='medium'/> Error while saving </h3></div>: null}
 
-        {renderAddNewMovie(this.props, this.handleTitleChanged, this.handleDirectorChanged, this.handleActorsChanged, 
-          this.handleYearChanged, this.handleImageChanged, this.handleSaveMovie)}
+      <div className="container w-75 mb-2 clearfix">
+        <div className="row">
+          <div className="col">
+            <h1>Add new movie</h1>
+          </div>
+          <div className="col">
+            {this.props.justSaved && this.props.savedMovieAnswer ? <div><h3 className="text-success">
+              <Octicon icon={Check} size='medium'/>Saved successfully</h3></div>: null}
+            {this.props.justSaved && !this.props.savedMovieAnswer ? <div><h3 className="text-danger">
+               <Octicon icon={CircleSlash} size='medium'/> Error while saving the movie. </h3></div>: null}
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col">
+            {renderAddNewMovie(this.props, this.handleTitleChanged, this.handleDirectorChanged, this.handleActorsChanged, 
+              this.handleYearChanged, this.handleImageChanged, this.handleSaveMovie)}
+          </div>
+        </div>
+
       </div>
     );
   }

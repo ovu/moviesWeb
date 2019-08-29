@@ -47,17 +47,17 @@ export const actionCreators = {
   },
 
   changeTitle: (newTitle) => async (dispatch, getState) => {
-    let isValidTitle = validationService.isValidString(newTitle);
+    let isValidTitle = validationService.isValidStringWithLength(newTitle, 100);
     dispatch({ type: changeTitleType, title: newTitle, isValidTitle });
   },
 
   changeDirector: (newDirector) => async (dispatch, getState) => {
-    let isValidDirector = validationService.isValidString(newDirector);
+    let isValidDirector = validationService.isValidStringWithLength(newDirector, 100);
     dispatch({ type: changeDirectorType, director: newDirector, isValidDirector });
   },
 
   changeActors: (newActors) => async (dispatch, getState) => {
-    let isValidActors = validationService.isValidString(newActors);
+    let isValidActors = validationService.isValidStringWithLength(newActors, 300);
     dispatch({ type: changeActorsType, actors: newActors, isValidActors });
   },
 
@@ -67,7 +67,7 @@ export const actionCreators = {
   },
 
   changeImage: (newImage) => async (dispatch, getState) => {
-    let isValidImage = validationService.isValidString(newImage);
+    let isValidImage = validationService.isValidString(newImage) && validationService.isValidUrl(newImage);
     dispatch({ type: changeImageType, image: newImage.trim(), isValidImage });
   },
 

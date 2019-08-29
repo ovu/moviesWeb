@@ -30,9 +30,10 @@ class EditMovie extends Component {
                <Octicon icon={CircleSlash} size='medium'/> Error while saving </h3></div>: null}
           </div>
         </div>
+
         <div className="row">
           <div className="col">
-            {renderAddNewMovie(this.props, this.handleTitleChanged, this.handleDirectorChanged, this.handleActorsChanged, 
+            {renderEditMovie(this.props, this.handleTitleChanged, this.handleDirectorChanged, this.handleActorsChanged, 
               this.handleYearChanged, this.handleImageChanged, this.handleSaveMovie)}
           </div>
         </div>
@@ -72,7 +73,7 @@ class EditMovie extends Component {
   }
 }
 
-function renderAddNewMovie(props, handleTitleChanged, handleDirectorChanged, 
+function renderEditMovie(props, handleTitleChanged, handleDirectorChanged, 
   handleActorsChanged, handleYearChanged, handleImageChanged, handleSaveMovie) {
   const canBeSaved = props.isValidTitle && props.isValidDirector && props.isValidActors && props.isValidYear && props.isValidImage &&
     props.title !== "" && props.director !== "" && props.actors !== "" && props.year !== "" && props.image !== "";
@@ -88,7 +89,7 @@ function renderAddNewMovie(props, handleTitleChanged, handleDirectorChanged,
                      />
                   {
                     props.isValidTitle ? null: 
-                    <small id="titleHelp" className="form-text text-danger">Invalid field title</small>
+                    <small id="titleHelp" className="form-text text-danger">Invalid field title. It is required and should not be longer than 100 characters.</small>
                   }
             </div>
             <div className="form-group">
@@ -99,7 +100,7 @@ function renderAddNewMovie(props, handleTitleChanged, handleDirectorChanged,
                      />
                   {
                     props.isValidDirector ? null:
-                    <small id="directorHelp" className="form-text text-danger">Invalid field director</small>
+                    <small id="directorHelp" className="form-text text-danger">Invalid field director. It is required and should not be longer than 100 characters.</small>
                   }
             </div>
             <div className="form-group">
@@ -107,8 +108,8 @@ function renderAddNewMovie(props, handleTitleChanged, handleDirectorChanged,
               <input type="text" className="form-control" id="actors" aria-describedby="actorsHelp" placeholder="Actors"
                      value={props.actors} onChange={handleActorsChanged}/>
                   {
-                    props.isValidDirector ? null:
-                    <small id="actorsHelp" className="form-text text-danger">Invalid field actors</small>
+                    props.isValidActors ? null:
+                    <small id="actorsHelp" className="form-text text-danger">Invalid field actors. It is required and should not be longer than 300 characters.</small>
                   }
             </div>
             <div className="form-group">
@@ -126,7 +127,7 @@ function renderAddNewMovie(props, handleTitleChanged, handleDirectorChanged,
                      value={props.image} onChange={handleImageChanged}/>
                   {
                     props.isValidImage ? null:
-                    <small id="imageHelp" className="form-text text-danger">Invalid field image</small>
+                    <small id="imageHelp" className="form-text text-danger">Invalid field image. It shoudl be a well formed Url.</small>
                   }
             </div>
                   {
